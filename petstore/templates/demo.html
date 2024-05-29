@@ -1,0 +1,19 @@
+{% extends 'base.html'%}
+
+
+{% block content%}
+<p>{{data}}</p>
+<hr>
+<p> {{data|upper}}</p>
+<hr>
+<p> {{data|lower}}</p>
+<hr>
+<p> {{data|capfirst}}</p>
+<hr>
+<p> {{data|length}}</p>
+<hr>
+<hr>
+<p>{{data|wordcount}}</p>
+<hr>
+<p>{{5|add:12}}</p>
+{% endblock%}

@@ -1,0 +1,15 @@
+{% extends 'base.html'%}
+
+
+{% block content%}
+
+
+         {% for product in category.product_set.all %}
+
+            {% include 'product_card.html' with obj=product%}    
+
+         {% endfor%}
+
+                              
+
+{% endblock%}

@@ -1,0 +1,63 @@
+{%extends 'base.html' %}
+{% load custom_filters%}
+
+{% block content%}
+{% comment %} {{total=0}} {% endcomment %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+<div class='col'>
+{% for cartitem in cartitems%}
+<div class="card mb-3" style="max-width: 540px;">
+	<div class="row g-0">
+	  <div class="col-md-4">
+		<img src="{{cartitem.products.product_picture.url}}" class="img-fluid rounded-start" alt="...">
+	  </div>
+	  <div class="col-md-8">
+		<div class="card-body">
+		  <h5 class="card-title">{{cartitem.products.product_name}}</h5>
+		  <p class="card-text">{{cartitem.products.product_price}}</p>
+		  <p class="card-text"><small class="text-muted">Quantity :{{cartitem.quantity}}</small></p>
+		  <form action="{% url 'update-quantity' cartitem.id %}">  
+			<button type="button" id="decrement" onclick="quantityUpdate(-1,{{cartitem.id}})">-</button>
+			<input type="number" name="quantity" value="{{cartitem.quantity}}" id="quantity{{cartitem.id}}">
+			<button type="button" id="increment" onclick="quantityUpdate(1,{{cartitem.id}})">+</button>
+			<button type="submit" class="btn btn-primary">Update</button>
+			</form>
+		  <a class="btn btn-danger" href="{% url 'delete-cartitem' cartitem.id %}" role="button">Remove</a>
+		</div>
+	  </div>
+	</div>
+  </div>
+{%endfor%}
+</div>
+
+<div class='col'>
+	
+</div>
+<table class="table table-hover">
+	<thead>
+	  <tr>
+		<th scope="col">Product Name</th>
+		<th scope="col">Price</th>
+		<th scope="col">Quantity</th>
+		<th scope="col">Amount</th>
+	  </tr>
+	</thead>
+	<tbody>
+	{% for cartitem in cartitems%}
+	  <tr>
+		<th scope="row">{{cartitem.products.product_name}}</th>
+		<td>{{cartitem.products.product_price}}</td>
+		<td>{{cartitem.quantity}}</td>
+		<td>{{cartitem.products.product_price|multiply:cartitem.quantity}}</td>
+	  </tr>
+	  {% comment %} {% total += cartitem.products.product_price|multiply:cartitem.quantity%} {% endcomment %}
+	{%endfor%}
+	  
+	</tbody>
+  </table>
+  <p>Total:{{total}}</p>
+  <a class="btn btn-primary" href="{% url 'checkout'%}" role="button">Checkout</a>
+</div>
+
+
+{%endblock%}
